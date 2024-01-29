@@ -5,6 +5,7 @@ public class Main {
         User carlos = new User("Carlos", "Souza", "carlitos", "223345Lol");
         User jacinto = new User("Jacinto", "Leite", "jacintogameplays", "1212kkJ");
 
+
         Authenticator.authenticate("carlitos","223345Lol");
         System.out.println(carlos.status);
         carlos.deposit(20);

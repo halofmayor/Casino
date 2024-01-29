@@ -2,16 +2,15 @@ package Casino;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class User {
-    private static List<User> users = new ArrayList<User>();
-    private static List<String> usernames = new ArrayList<String>();
+    private static List<User> users = new ArrayList<>();
+    private static List<String> usernames = new ArrayList<>();
     private String username;
     private String firstName;
     private String lastName;
     private String password;
-    private UUID userID;
     private double balance;
 
     boolean status = false;
@@ -20,9 +19,9 @@ public class User {
     }
 
     public User(String firstName, String lastName, String username, String password){
-        for(int i = 0; i < usernames.size(); i++){
+        for(String user : usernames){
             //this for loop checks in the list of usernames if there is already the username given
-            if(username.equals(usernames.get(i))){
+            if(username.equals(user)){
                 System.out.println("Username already exists.");
                 return;
             }
@@ -33,7 +32,6 @@ public class User {
         this.username = username;
         this.password = password;
         balance = 0;
-        userID = UUID.randomUUID();
         //add the usernames to the usernames list and the user to the users list
         usernames.add(username);
         users.add(this);
@@ -51,7 +49,7 @@ public class User {
         return balance;
     }
 
-    public List<User> getUsers(){
+    public static List<User> getUsers(){
         return users;
     }
 
@@ -91,8 +89,7 @@ public class User {
             return;
         }
         //this for loop will search for the username in the usernames list and will find the respective user with that username
-        for(int i = 0; i < users.size(); i++){
-            User actual = users.get(i);
+        for(User actual : users){
             if(username.equals(actual.getUsername())){
                 actual.deposit(n,this);
                 withdraw(n);
