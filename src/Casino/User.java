@@ -1,57 +1,43 @@
 package Casino;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class User {
-    private static List<User> users = new ArrayList<>();
-    private static List<String> usernames = new ArrayList<>();
-    private String username;
+
+    public static Map<String, User> usernameUser = new HashMap<>();
+
+    private String password;
+
     private String firstName;
     private String lastName;
-    private String password;
     private double balance;
 
     boolean status = false;
-
-    public User(){
-    }
+git
 
     public User(String firstName, String lastName, String username, String password){
-        for(String user : usernames){
-            //this for loop checks in the list of usernames if there is already the username given
-            if(username.equals(user)){
-                System.out.println("Username already exists.");
-                return;
-            }
+        if(usernameUser.containsKey(username)){
+            System.out.println("This username already exists.");
         }
         //if not then it will give values to the User
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
-        this.password = password;
+        usernameUser.put(username,this);
         balance = 0;
-        //add the usernames to the usernames list and the user to the users list
-        usernames.add(username);
-        users.add(this);
-    }
-
-    public String getUsername(){
-        return username;
-    }
-
-    public String getPassword(){
-        return password;
+        this.password = password;
     }
 
     public double getBalance(){
         return balance;
     }
 
-    public static List<User> getUsers(){
-        return users;
+    public String getPassword(){
+        return password;
     }
+
 
     public void withdraw(int n){
         //check if the account is logged in
@@ -89,13 +75,11 @@ public class User {
             return;
         }
         //this for loop will search for the username in the usernames list and will find the respective user with that username
-        for(User actual : users){
-            if(username.equals(actual.getUsername())){
-                actual.deposit(n,this);
+            if(usernameUser.containsKey(username)){
+                usernameUser.get(username).deposit(n,this);
                 withdraw(n);
                 return;
             }
-        }
         System.out.println("username not found");
     }
 }
