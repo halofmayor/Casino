@@ -16,7 +16,7 @@ public class User {
     private double balance;
 
     boolean status = false;
-git
+
 
     public User(String firstName, String lastName, String username, String password){
         if(usernameUser.containsKey(username)){
