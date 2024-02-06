@@ -1,8 +1,6 @@
-package Casino;
-
-
-import java.util.HashMap;
-import java.util.Map;
+package Casino.User;
+import java.util.Arrays;
+import java.util.Base64;
 
 public class Authenticator {
     //saves the logged user
@@ -18,11 +16,9 @@ public class Authenticator {
             if(User.usernameUser.containsKey(username)){
                 //if the username exists then it will check for password
                 User actual = User.usernameUser.get(username);
-                if(actual.getPassword().equals(password)){
-                    //the loggedUser will be the Actual User that was being used to check the credentials
+                if(Arrays.equals(actual.generateHash(password, actual.salt), actual.getPassword())){
                     loggedUser = actual;
-                    //and the status of the user will be true, so we can do operations
-                    loggedUser.status = true;
+                    actual.status = true;
                     return;
                 }
                 System.out.println("Incorrect password.");
@@ -33,8 +29,12 @@ public class Authenticator {
     }
 
     public static void logout(){
-        loggedUser.status = false;
-        loggedUser = null;
-        System.out.println("Logged out.");
+        try {
+            loggedUser.status = false;
+            loggedUser = null;
+            System.out.println("Logged out.");
+        } catch (NullPointerException e){
+            System.out.println("No user is logged in.");
+        }
     }
 }

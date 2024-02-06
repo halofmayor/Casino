@@ -1,18 +1,38 @@
 package Casino;
 
+import Casino.User.Authenticator;
+import Casino.User.User;
+
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Main {
     public static void main(String[] args) {
-        User carlos = new User("Carlos", "Souza", "carlitos", "223345Lol");
-        User jacinto = new User("Jacinto", "Leite", "jacintogameplays", "1212kkJ");
+
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            public void run() {
+                Roulette.spin();
+            }
+        };
+
+        // Schedule the task to run every 30 seconds (30,000 milliseconds)
+        timer.scheduleAtFixedRate(task, 20000, 30000);
 
 
-        Authenticator.authenticate("carlitos","223345Lol");
-        carlos.deposit(60);
+        User carlos = new User("Carlos", "Souza", "carlitos", "aaaa");
+        User jacinto = new User("Jacinto", "Leite", "jacintogameplays", "aaaa");
+
+
+        Authenticator.authenticate("carlitos","aaaa");
+        carlos.deposit(20);
+        Roulette.createBet(Roulette.Colors.BLACK, 20);
         Authenticator.logout();
-        carlos.transfer(20, "jacintogameplays");
-        System.out.println(carlos.getBalance());
-        System.out.println(jacinto.getBalance());
-
+        Authenticator.authenticate("jacintogameplays", "aaaa");
+        jacinto.deposit(20);
+        Roulette.createBet(Roulette.Colors.RED,20);
 
     }
 }
