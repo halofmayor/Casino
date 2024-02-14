@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static Casino.User.Authenticator.loggedUser;
 
@@ -39,6 +42,10 @@ public class Roulette {
     private static Map<Colors, Object[]> userBets = new HashMap<>();
 
     public static void createBet(Colors color, double betAmount){
+        if(loggedUser == null){
+            System.out.println("Please login first");
+            return;
+        }
         bettingUser = loggedUser;
         Object[] betDetails = {bettingUser, betAmount};
         userBets.put(color, betDetails);
@@ -65,5 +72,15 @@ public class Roulette {
             }
             userBets.clear();
 
+    }
+
+    public Roulette(){
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        Runnable task = new Runnable() {
+            public void run() {
+                Roulette.spin();
+            }
+        };
+        executor.scheduleAtFixedRate(task, 2,30, TimeUnit.SECONDS);
     }
 }

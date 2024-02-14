@@ -11,6 +11,7 @@ import java.util.Map;
 import java.security.SecureRandom;
 
 public class User {
+    protected int counter = 0;
 
     public static Map<String, User> usernameUser = new HashMap<>();
 
